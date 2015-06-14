@@ -8,6 +8,15 @@ class { '::nodejs':
   npm_package_ensure        => 'present',
 }
 
+# --- NodeJS --- #
+
+# Because of a package name collision, 'node' is called 'nodejs' in Ubuntu.
+# Here we're adding a symlink so 'node' points to 'nodejs'
+file { '/usr/bin/node':
+  ensure => 'link',
+  target => "/usr/bin/nodejs"
+}
+
 
 # --- MongoDB --- #
 #class { '::mongodb::server': }

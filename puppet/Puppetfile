@@ -1,7 +1,7 @@
 forge "https://forge.puppetlabs.com"
 
-mod "puppetlabs/stdlib"
 mod "puppetlabs/apt"
+mod "puppetlabs/stdlib"
 mod "puppetlabs/nodejs"
 
 #mod "mongodb",

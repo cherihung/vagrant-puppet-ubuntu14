@@ -1,7 +1,12 @@
+#shell file modified based on https://github.com/purple52/librarian-puppet-vagrant
 #!/bin/sh
+# Do the initial apt-get update
+echo "Initial apt-get update..."
+apt-get update >/dev/null
 
 # Check the received options in order to set up some variables
-PREFER_PACKAGE=1
+# set PREFER_PACKAGE to 0 if default package should be gem and not apt-get
+PREFER_PACKAGE=0
 while getopts ":g" opt; do
   case $opt in
     g)
@@ -35,7 +40,7 @@ InstallLibrarianPuppetGem () {
     1.8.*)
       #echo 'Uninstall ruby1.8.*...We do not like it'
       #apt-get remove -y libruby1.8 ruby1.8 ruby1.8-dev
-      
+
       # For ruby 1.8.x librarian-puppet needs to use 'highline' 1.6.x
       #highline >= 1.7.0 requires ruby >= 1.9.3
       gem install highline --version "~>1.6.0" > /dev/null 2>&1
@@ -43,6 +48,7 @@ InstallLibrarianPuppetGem () {
       gem install librarian-puppet --version "~>1"
       ;;
     *)
+      echo "installing librarian-puppet for Ruby 1.9.*"
       gem install librarian-puppet
       ;;
   esac
@@ -86,13 +92,15 @@ elif [ "${FOUND_APT}" -eq '0' ]; then
     else
       dpkg -s ruby-json >/dev/null 2>&1
       if [ $? -ne 0 -a -n "$(apt-cache search ruby-json)" ]; then
+        echo "installing ruby-json"
         # Try and install json dependency from package if possible
-        apt-get -q -y install ruby-json
+        apt-get -y install ruby-json
       else
         echo 'The ruby_json package was not installed (maybe, it was present). Attempting to install librarian-puppet anyway.'
       fi
       if [ -n "$(apt-cache search ruby1.9.3)" ]; then
-        apt-get -q -y install ruby1.9.3
+        echo "installing ruby 1.9.3"
+        apt-get -y install ruby1.9.3
       fi
       InstallLibrarianPuppetGem
     fi
