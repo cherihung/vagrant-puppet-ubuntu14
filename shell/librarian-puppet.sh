@@ -33,8 +33,11 @@ InstallLibrarianPuppetGem () {
   RUBY_VERSION=$(ruby -e 'print RUBY_VERSION')
   case "$RUBY_VERSION" in
     1.8.*)
+      #echo 'Uninstall ruby1.8.*...We do not like it'
+      #apt-get remove -y libruby1.8 ruby1.8 ruby1.8-dev
+      
       # For ruby 1.8.x librarian-puppet needs to use 'highline' 1.6.x
-      # highline >= 1.7.0 requires ruby >= 1.9.3
+      #highline >= 1.7.0 requires ruby >= 1.9.3
       gem install highline --version "~>1.6.0" > /dev/null 2>&1
       # Install the most recent 1.x.x version, but not 2.x.x which needs Ruby 1.9
       gem install librarian-puppet --version "~>1"
@@ -47,7 +50,7 @@ InstallLibrarianPuppetGem () {
 }
 
 if [ "${FOUND_YUM}" -eq '0' ]; then
-
+  echo "Yum is found"
   # Make sure Git is installed
   if [ "$FOUND_GIT" -ne '0' ]; then
     echo 'Attempting to install Git.'
@@ -58,11 +61,13 @@ if [ "${FOUND_YUM}" -eq '0' ]; then
 
   # Make sure librarian-puppet is installed
   if [ "$FOUND_LP" -ne '0' ]; then
+    echo 'Make sure librarian-puppet is installed'
     InstallLibrarianPuppetGem
   fi
 
 elif [ "${FOUND_APT}" -eq '0' ]; then
-
+   
+  echo "apt is found"
   apt-get -q -y update
 
   # Make sure Git is installed
@@ -74,6 +79,7 @@ elif [ "${FOUND_APT}" -eq '0' ]; then
 
   # Make sure librarian-puppet is installed
   if [ "$FOUND_LP" -ne '0' ]; then
+    echo "librarian-puppet is not already installed, let's do it...."
     if [ "$PREFER_PACKAGE" -eq 1 -a -n "$(apt-cache search librarian-puppet)" ]; then
        apt-get -q -y install librarian-puppet
        echo 'Librarian-puppet installed from package'
@@ -85,8 +91,8 @@ elif [ "${FOUND_APT}" -eq '0' ]; then
       else
         echo 'The ruby_json package was not installed (maybe, it was present). Attempting to install librarian-puppet anyway.'
       fi
-      if [ -n "$(apt-cache search ruby1.9.1-dev)" ]; then
-        apt-get -q -y install ruby1.9.1-dev
+      if [ -n "$(apt-cache search ruby1.9.3)" ]; then
+        apt-get -q -y install ruby1.9.3
       fi
       InstallLibrarianPuppetGem
     fi
