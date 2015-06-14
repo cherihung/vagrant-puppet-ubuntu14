@@ -1,0 +1,8 @@
+forge "https://forge.puppetlabs.com"
+
+mod "puppetlabs/stdlib"
+mod "puppetlabs/apt"
+mod "puppetlabs/nodejs"
+
+#mod "mongodb",
+   #:git => "git://github.com/puppetlabs/puppetlabs-mongodb.git"
