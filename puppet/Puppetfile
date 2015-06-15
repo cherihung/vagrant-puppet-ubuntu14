@@ -1,8 +1,4 @@
-forge "https://forge.puppetlabs.com"
+forge "https://forgeapi.puppetlabs.com"
 
-mod "puppetlabs/apt"
-mod "puppetlabs/stdlib"
 mod "puppetlabs/nodejs"
-
-#mod "mongodb",
-   #:git => "git://github.com/puppetlabs/puppetlabs-mongodb.git"
+mod "puppetlabs/postgresql"

@@ -1,5 +1,6 @@
+# inspired by sensible organization from https://gist.github.com/DanielChalk/2781470
 
-# Lets tell Puppet the order of our stages
+### Puppet install stages ###
 stage { 
   'users':      before => Stage['modules'];
   'modules':	before => Stage['packages'];
@@ -8,21 +9,19 @@ stage {
   'services':   before => Stage['main'];
 }
 
+class { 'postgresql::server': }
+
+### STAGE service ###
 class services {
-  #we want apache and mongo to be running when the server boots
-  # service { 
-  #   'mongodb':
-  #     ensure => running,
-  #     enable => true;
-  # }
+  
 }
 
+### STAGE configure ###
 class configure {
 	Exec {
   		path => ['/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/local/bin']
 	}
-	# Because of a package name collision, 'node' is called 'nodejs' in Ubuntu.
-	# Here we're adding a symlink so 'node' points to 'nodejs'
+	# 'node' is called 'nodejs' in Ubuntu. This symlinks 'node' to 'nodejs' for consistency
 	file { '/usr/bin/node':
 	  ensure => 'link',
 	  target => "/usr/bin/nodejs"
@@ -30,35 +29,34 @@ class configure {
 }
 
 class installNodejs {
-	class { '::nodejs':
-	  manage_package_repo       => false,
-	  nodejs_dev_package_ensure => 'present',
-	  npm_package_ensure        => 'present'
-	}
+  class { '::nodejs':
+    manage_package_repo       => false,
+    nodejs_dev_package_ensure => 'present',
+    npm_package_ensure        => 'present'
+  }
 }
-#basic system modules for Puppet
+
+### STAGE modules: basic system modules for Puppet ### 
 class modules {	
-	include apt
-	include stdlib
 	include installNodejs
 }
 
-#global packages
+### STAGE packages: global packages ###
 class packages {
   package {
   	"grunt-cli":
   		ensure => "present",
-  		provider => "npm",
-  		require => Package['nodejs'];
+  		provider => "npm";
   	"gulp":
   	  	ensure => "present",
   		provider => "npm";
   }
 }
 
+### STAGE users ###
 class users
 {
-
+ 
 }
 
 # link classes to stages
