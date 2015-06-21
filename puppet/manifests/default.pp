@@ -49,7 +49,13 @@ class packages {
   		provider => "npm";
   	"gulp":
   	  	ensure => "present",
-  		provider => "npm";
+  		provider => "npm"; 
+    "bower":
+        ensure => "present",
+      provider => "npm";
+    "sass":
+        ensure => "installed",
+      provider => "gem";
   }
 }
 

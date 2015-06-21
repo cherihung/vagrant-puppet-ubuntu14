@@ -7,9 +7,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = VAGRANT_BOX
   config.vm.box_url = VAGRANT_BOX
 
-  config.vm.network :private_network,  ip: "172.22.22.22"
-  config.vm.network :forwarded_port, guest: 3000, host: 3333
-  config.vm.network :forwarded_port, guest: 27017, host: 2000
+  config.vm.network :private_network, ip: "172.22.22.22"
+  config.vm.network :forwarded_port, guest: 3000, host: 3000
+  config.vm.network :forwarded_port, guest: 3001, host: 3001
+
   config.vm.hostname = "devbox"
 
   config.vm.provider :virtualbox do |vb|
