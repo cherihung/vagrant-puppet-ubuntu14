@@ -7,16 +7,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = VAGRANT_BOX
   config.vm.box_url = VAGRANT_BOX
 
-  config.vm.network :private_network, ip: "172.22.22.22"
+  #config.vm.network :private_network, ip: "127.0.0.1"
+  config.vm.network "public_network", auto_config: false
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 3001, host: 3001
+  config.vm.network :forwarded_port, guest: 8080, host: 8080
+  config.vm.network :forwarded_port, guest: 2992, host: 2992
 
-  config.vm.hostname = "devbox"
+  #config.vm.hostname = "devbox"
 
   config.vm.provider :virtualbox do |vb|
     # This allows symlinks to be created within the /vagrant dir
     vb.customize ["setextradata", :id,
                   "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    #vb.gui = true
   end
 
   config.vm.provision :shell, :path => "shell/librarian-puppet.sh"
