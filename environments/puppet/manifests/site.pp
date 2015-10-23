@@ -9,8 +9,6 @@ stage {
   'services':   before => Stage['main'];
 }
 
-class { 'postgresql::server': }
-
 ### STAGE service ###
 class services {
   
@@ -35,10 +33,10 @@ class configure {
 }
 
 class installNodejs {
-  class { '::nodejs':
-    manage_package_repo       => false,
-    nodejs_dev_package_ensure => 'present',
-    npm_package_ensure        => 'present'
+  class { 'nodejs':
+    repo_url_suffix => 'node_0.12',
+    nodejs_package_ensure => '0.12.7-1nodesource1~trusty1',
+    before => Package[$npm_packages],
   }
 }
 
