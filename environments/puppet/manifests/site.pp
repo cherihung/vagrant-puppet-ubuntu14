@@ -24,6 +24,12 @@ class configure {
 	  ensure => 'link',
 	  target => "/usr/bin/nodejs"
 	}	
+  # replace it so serving localhost in master works 
+  file_line { 'someline':
+    path  => '/etc/hosts',
+    line  => '0.0.0.0 localhost.vm localhost',
+    match => '^127\.0\.1\.1.*',
+  }
 }
 
 class installNodejs {
