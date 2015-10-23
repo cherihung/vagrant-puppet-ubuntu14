@@ -9,8 +9,6 @@ stage {
   'services':   before => Stage['main'];
 }
 
-class { 'postgresql::server': }
-
 ### STAGE service ###
 class services {
   

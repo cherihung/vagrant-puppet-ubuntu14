@@ -7,13 +7,8 @@ FORGE
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
     puppetlabs-nodejs (0.8.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.2.1)
-    puppetlabs-postgresql (4.3.0)
-      puppetlabs-apt (< 2.0.0, >= 1.8.0)
-      puppetlabs-concat (< 2.0.0, >= 1.1.0)
-      puppetlabs-stdlib (~> 4.0)
     puppetlabs-stdlib (4.6.0)
 
 DEPENDENCIES
   puppetlabs-nodejs (>= 0)
-  puppetlabs-postgresql (>= 0)
 

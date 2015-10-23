@@ -4,4 +4,4 @@ bower_components
 .vagrant
 .tmp
 .librarian
-puppet/modules
+*/puppet/modules
